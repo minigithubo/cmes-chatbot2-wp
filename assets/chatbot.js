@@ -1,4 +1,5 @@
 (function () {
+
   //중복 실행 막는 가드, 한 번만 실행”하도록 락(lock)
   if (window.__CMES_CHATBOT__) return;
   window.__CMES_CHATBOT__ = true;
@@ -33,16 +34,278 @@
   };
 
   // BASE 경로 자동 계산 (플러그인 기준)
-//   현재 로드된 스크립트의 실제 URL을 가져와서
-// 끝에 assets/chatbot.js를 제거해서
-// “플러그인 폴더 기준 base”를 만든다
+  // 현재 로드된 스크립트의 실제 URL을 가져와서
+  // 끝에 assets/chatbot.js를 제거해서
+  // “플러그인 폴더 기준 base”를 만든다
   const SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : "";
   const BASE = SCRIPT_SRC.replace(/assets\/chatbot\.js(\?.*)?$/, ""); // .../cmes-chatbot2/
 
   // root
+  const host = document.createElement("div");
+  host.id = "cmes-chatbot-host";
+  document.body.appendChild(host);
+
+  const shadow = host.attachShadow({ mode: "open" });
+
+  const style = document.createElement("style");
+  style.textContent = `
+    /* ================================================= */
+    /* ===== Chat Widget Box ===== */
+    /* ================================================= */
+
+    .chat-widget {
+        position: fixed;
+        right: 24px;
+        bottom: 100px;
+        width: 420px;
+        height: 660px;
+        background: #ffffff;
+        border-radius: 40px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        z-index: 1001;
+        flex-direction: column;
+        padding: 16px;
+        /* 살짝 올라오는 효과 */
+        animation: chat-fade-up 0.25s ease;
+        display: flex;  
+        
+      }
+      /*Chat Header*/
+      .chat-header {
+        height: 40px;
+        padding: 16px;
+        display: flex;
+        font-size: 10pt;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 800;
+      }
+      .chat-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        
+      }
+      .chat-active{
+        display: flex;
+        align-items: center;
+      }
+      .chat-title {
+        display: grid;
+        flex-direction: column;
+        margin-left: 10px; /* ← 오른쪽으로 살짝 이동 */
+      }
+      .chat-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .chat-notify {
+        font-size: 12px;
+        color: #777;
+        font-weight: 500;
+      }
+      .chat-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        padding-right:1pt;
+      }
+      
+      /*Chat Body*/
+      .chat-body {
+        flex: 1;
+        padding: 16px;
+        font-size: 14px;
+        color: #eeebeb;
+        overflow-y: auto;     
+      }
+
+      /*Chat box */
+      .chat-bubble{
+        position: relative;
+        max-width: 50%;
+        max-height: 10%;
+        background: #030304;
+        border-radius: 19px;
+        padding: 16px;
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;      /* 가로 중앙 */
+        justify-content: center;  /* 세로 중앙 */
+      
+        text-align: center;
+        
+      }
+      .chat-bubble.user {
+        position: relative;
+      }
+      
+    .chat-bubble.user .chat-time {
+        position: absolute;
+        left: -320px;
+        bottom: 1px;
+        font-size: 11px;
+        color: rgba(0,0,0,0.4);
+      }
+      
+      .chat-bubble p {
+        margin: 0;
+        line-height: 1.4;
+      }
+      
+      /* 두 문장 사이 간격만 아주 살짝 */
+      .chat-bubble p + p {
+        margin-top: 6px;
+      }
+      .quick-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      /* 버튼 */
+      .quick-btn, .faq-btn {
+        padding: 8px;
+        border-radius: 20px;
+        border: 2px solid #0b0a10;
+        background: white;
+        color: #09080d;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .chat-time {
+        position: absolute;
+        right: -49px;
+        bottom: -1px;   /* 음수 = 말풍선 밖 */
+        font-size: 11px;
+        color: rgba(0,0,0,0.4);
+        white-space: nowrap;
+      }
+      .chat-bottom {
+        border-top: 1px solid #dbd6d6;
+        padding: 12px 16px;
+      }
+      .chat-input-wrapper {
+        margin-bottom: 8px;
+      }
+      
+      .chat-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        color: #000;
+        padding: 8px 0;
+        background: transparent;
+      }
+      
+      .chat-input::placeholder {
+        color: #aaa;
+      }
+      .chat-placeholder {
+        color: #aaa;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+      }
+      
+      .chat-bottom-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .chat-bottom-icon {
+        display: flex;
+        gap: 12px;
+      }
+      .chat-bottom-icon button {
+        background: none;
+        border: none;
+        padding: 0;
+        width: auto;
+        height: auto;
+        cursor: pointer;
+      }
+      .chat-bottom-icon img {
+        width: 20px;
+        height: 22px;
+        opacity: 0.65;
+      }
+      .chat-send {
+        width: 42px;
+        height: 42px;
+        background:none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      
+      .chat-send img {
+      width: 35px;
+      height: 35px;
+      }
+    /* ================================================= */
+    /* ===== Chatbot Trigger Button ===== */
+    /* ================================================= */
+
+    .chatbot-trigger {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: none;
+        background: none;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .chatbot-trigger img {
+        width: 104px;
+        height: 104px;
+      }
+      .chat-bubble {
+        display: flex;
+        align-items: center;     /* 세로 중앙 */
+        justify-content: center; /* 가로 중앙 */
+        text-align: center;
+      }
+      
+      .chat-bubble p {
+        margin: 0;               /* 위아래 간격 제거 */
+        line-height: 1.35;
+      }
+      .chat-bubble.user {
+        margin-left: auto;
+        background: #e9e9e9;
+        color: #111;
+      }
+      
+      .chat-bubble.assistant {
+        margin-right: auto;
+      }
+      
+    `;
+
+   
+  shadow.appendChild(style);
+
   const root = document.createElement("div");
   root.id = "cmes-chatbot-root";
-  document.body.appendChild(root);
+  shadow.appendChild(root);
+
 
   // trigger button (chatbot button)
   const trigger = document.createElement("button");
@@ -61,7 +324,7 @@
     }
     render();
   };
-  document.body.appendChild(trigger);
+  shadow.appendChild(trigger);
 
   //time visible for every chatting.
   function getTime() {
@@ -72,7 +335,6 @@
     });
   }
   
-
   function escapeHtml(s) {
     return String(s)
       .replaceAll("&", "&amp;")
@@ -86,11 +348,11 @@
     const t = text.trim();
     if (!t) return;
 
+    //유저 메시지가 들어오면 자동으로 mode = "chatting"으로 바꾸는 게 포인트
     messages.push({ role: "user", text: t, time:getTime()});
     mode = "chatting";
   }
-  //유저 메시지가 들어오면 자동으로 mode = "chatting"으로 바꾸는 게 포인트
-
+ 
   function addAssistantMessage(text) {
     const t = text.trim();
     if (!t) return;
@@ -118,26 +380,20 @@
     if (!selectedCategory || !FAQ[selectedCategory]) return "";
     const items = FAQ[selectedCategory];
     return `
-      <div class="faq-list">
+    <div class="faq-list">
         ${items
           .map(
             (q, idx) => `
           <button class="faq-btn" data-faq-idx="${idx}"> 
             ${escapeHtml(q)}
           </button>
-        `
-        //items에 들어있는 질문 하나(q)마다 버튼 HTML 문자열 하나를 만들어라
-        //join()-> 배열을 innerhtml 에 못넣으니 하나의 문자열로 합침
-          )
-          .join("")} 
+        `).join("")}
       </div>
     `;
   }
 
   function renderQuickActionsHtml() {
-    // 
     if (mode !== "init") return "";
-
     return `
       <div class="quick-actions">
         <button class="quick-btn" data-cat="companyInfo">Company info</button>
@@ -146,7 +402,6 @@
       </div>
     `;
   }
-
   function render() {
     root.innerHTML = "";
     if (!open) return;
@@ -196,12 +451,12 @@
         </div>
       </div>
     `;
-//render() 순서
-// root.innerHTML = "" 초기화
-// open이 false면 아무것도 안 그린다
-// open이 true면 전체 HTML을 문자열로 “한 번에” 넣는다
-// 그 다음에 querySelector로 버튼 잡고 이벤트 걸어준다
-// 마지막에 스크롤 맨 아래로, input focus
+    //render() 순서
+    // root.innerHTML = "" 초기화
+    // open이 false면 아무것도 안 그린다
+    // open이 true면 전체 HTML을 문자열로 “한 번에” 넣는다
+    // 그 다음에 querySelector로 버튼 잡고 이벤트 걸어준다
+    // 마지막에 스크롤 맨 아래로, input focus
     // close
     root.querySelector(".chat-close").onclick = () => {
       open = false;
