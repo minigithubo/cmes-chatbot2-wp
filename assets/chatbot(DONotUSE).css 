@@ -126,7 +126,7 @@
   padding: 14px 16px;
   border-radius: 18px;
   line-height: 1.4;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 
   display: block;
   text-align: left;
@@ -156,7 +156,7 @@
 /* ================================================= */
 .chat-time {
   position: absolute;
-  bottom: 4px;
+  bottom: -14px;
   font-size: 11px;
   color: rgba(0,0,0,0.4);
   white-space: nowrap;

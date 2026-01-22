@@ -13,24 +13,25 @@
   // FAQ questions
   const FAQ = {
     companyInfo: [
-      "What industries do you serve?",
-      "What brands do you partner with?",
-      "What does CMES Robotics do?",
-      "How do your automation solutions help?"
+      { id: "industries_served", label: "What industries do you serve?" },
+      { id: "partner_brands", label: "What brands do you partner with?" },
+      { id: "company_overview", label: "What does CMES Robotics do?" },
+      { id: "automation_benefits", label: "How do your automation solutions help?" }
     ],
     engineering: [
-      "What kind of robots are you using?",
-      "How many boxes can you handle per hour?",
-      "What robots do you integrate?",
-      "Do you offer a robotic palletizing/depalletizing solution for a loose bag?"
-
+      { id: "robot_types", label: "What kind of robots are you using?" },
+      { id: "box_throughput", label: "How many boxes can you handle per hour?" },
+      { id: "robot_integration", label: "What robots do you integrate?" },
+      { id: "loose_bag_solution", label: "Do you offer a robotic palletizing/depalletizing solution for a loose bag?" },
+      { id: "sku_capacity", label: "For a piece picking robot, how many different SKU does it handle?" },
+      { id: "pick_speed", label: "What is the pick up speed per hour?" }
     ],
     salesLead: [
-      "Where can I see a demo?",
-      "How can I request a quote?",
-      "What is the lead time?",
-      "What is a delivery time of robotic palletizer?"
-    ],
+      { id: "demo_request", label: "Where can I see a demo?" },
+      { id: "request_quote", label: "How can I request a quote?" },
+      { id: "lead_time", label: "What is the lead time?" },
+      { id: "delivery_time", label: "What is a delivery time of robotic palletizer?" }
+    ]
   };
 
   // BASE 경로 자동 계산 (플러그인 기준)
@@ -125,19 +126,16 @@
       .chat-bubble{
         position: relative;
         max-width: 50%;
-        max-height: 10%;
         background: #030304;
         border-radius: 19px;
         padding: 16px;
         font-size: 14px;
         line-height: 1.4;
         margin-bottom: 12px;
-        
+        display: inline-block;  /* 핵심 */
+        word-break: break-word;
         display: flex;
         flex-direction: column;
-        align-items: center;      /* 가로 중앙 */
-        justify-content: center;  /* 세로 중앙 */
-      
         text-align: center;
         
       }
@@ -298,8 +296,6 @@
       }
       
     `;
-
-   
   shadow.appendChild(style);
 
   const root = document.createElement("div");
@@ -381,15 +377,15 @@
     const items = FAQ[selectedCategory];
     return `
     <div class="faq-list">
-        ${items
-          .map(
-            (q, idx) => `
-          <button class="faq-btn" data-faq-idx="${idx}"> 
-            ${escapeHtml(q)}
+      ${items.map(
+        (item) => `
+          <button class="faq-btn" data-faq-id="${item.id}">
+            ${escapeHtml(item.label)}
           </button>
-        `).join("")}
-      </div>
-    `;
+        `
+      ).join("")}
+    </div>
+  `;
   }
 
   function renderQuickActionsHtml() {
@@ -474,10 +470,23 @@
       render();
 
       //answer demo version when user ask questions. 
-      setTimeout(() => {
-        addAssistantMessage("Got it. (demo response) We will connect OpenAI next.");
-        render();
-      }, 200);
+      (async () => {
+        try {
+          const res = await CMESChatAPI.sendChatMessage({
+            message: value,
+            history: messages,
+            mode: "chatting",
+            category: selectedCategory
+          });
+      
+          addAssistantMessage(res.answer);
+          render();
+        } catch (err) {
+          addAssistantMessage("Sorry, something went wrong.");
+          render();
+        }
+      })();
+      
     }
 
     input.addEventListener("keydown", (e) => {
@@ -509,22 +518,27 @@
 
     // faq button click
     const faqBtns = root.querySelectorAll(".faq-btn");
-    faqBtns.forEach((b) => {
-      b.onclick = () => {
-        const idx = Number(b.getAttribute("data-faq-idx"));
-        const q = FAQ[selectedCategory][idx];
-        addUserMessage(q);
+    faqBtns.forEach((b) => { 
+      b.onclick = async () => { 
+      const faqId = b.getAttribute("data-faq-id"); 
+      const label = b.textContent.trim(); addUserMessage(label);
 
-        // FAQ 선택 이후는 일반 채팅으로 전환
-        mode = "chatting";
-        render();
-
-        setTimeout(() => {
-          addAssistantMessage("Thanks. (demo) I will answer this after OpenAI integration.");
-          render();
-        }, 200);
-      };
-    });
+      mode = "chatting";
+      render();
+      try {
+        const res = await CMESChatAPI.sendChatMessage({
+          message: faqId, // ✅ ID 보냄 
+          mode: "faq",
+          category: selectedCategory
+        }); 
+        addAssistantMessage(res.answer); 
+        render(); 
+      } catch (err) { 
+        addAssistantMessage("Sorry, I couldn't find an answer.");
+        render(); 
+      } 
+    }; 
+  });
 
     // mic demo
     const micBtn = root.querySelector("#micBtn");
