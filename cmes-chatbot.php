@@ -60,32 +60,33 @@ $CMES_FAQ_DATA = [
   
     $base = plugin_dir_url(__FILE__);
     $dir  = plugin_dir_path(__FILE__);
+
+    $css = $dir . 'assets/chatbot.css';
+    $api = $dir . 'assets/chat-api.js';
+    $ui  = $dir . 'assets/chatbot.js';
   
-    // CSS
     wp_enqueue_style(
-      'cmes-chatbot-style',
-      $base . 'assets/chatbot.css',
-      [],
-      filemtime($dir . 'assets/chatbot.css')
-    );
-  
-    // 🔥 Chat API (먼저)
-    wp_enqueue_script(
-      'cmes-chatbot-api',
-      $base . 'assets/chat-api.js',
-      [],
-      filemtime($dir . 'assets/chat-api.js'),
-      true
-    );
-  
-    // 🔥 Chat UI (API 의존)
-    wp_enqueue_script(
-      'cmes-chatbot',
-      $base . 'assets/chatbot.js',
-      ['cmes-chatbot-api'], // 중요
-      filemtime($dir . 'assets/chatbot.js'),
-      true
-    );
+    'cmes-chatbot-style',
+    $base . 'assets/chatbot.css',
+    [],
+    file_exists($css) ? filemtime($css) : null
+  );
+
+  wp_enqueue_script(
+    'cmes-chatbot-api',
+    $base . 'assets/chat-api.js',
+    [],
+    file_exists($api) ? filemtime($api) : null,
+    true
+  );
+
+  wp_enqueue_script(
+    'cmes-chatbot-ui',
+    $base . 'assets/chatbot.js',
+    ['cmes-chatbot-api'],
+    file_exists($ui) ? filemtime($ui) : null,
+    true
+  );
   });
   
 // ===============================
@@ -102,25 +103,100 @@ add_action('rest_api_init', function () {
   function cmes_chatbot_handle_chat($request) {
     global $CMES_FAQ_DATA;
   
-    $params = $request->get_json_params();
-    $message  = $params['message'] ?? '';
-    $mode     = $params['mode'] ?? '';
-    $category = $params['category'] ?? '';
-  
-    // ✅ FAQ 모드 처리
-    if ($mode === 'faq'
-        && isset($CMES_FAQ_DATA[$category])
-        && isset($CMES_FAQ_DATA[$category][$message])) {
-  
-      return [
-        'answer' => $CMES_FAQ_DATA[$category][$message]
-      ];
+    $p = $request->get_json_params();
+
+    $message  = isset($p['message']) ? wp_strip_all_tags((string)$p['message']) : '';
+    $mode     = isset($p['mode']) ? sanitize_key((string)$p['mode']) : 'chatting';
+    $category = isset($p['category']) ? sanitize_text_field((string)$p['category']) : '';
+    $history  = (isset($p['history']) && is_array($p['history'])) ? $p['history'] : [];
+
+    $message = trim($message);
+    if ($message === '') {
+    return cmes_response('Please enter a question.', [], false, 'error');
     }
-  
-    // ❌ FAQ 아니면 임시 응답
-    return [
-      'answer' => 'Thanks for your question. We will get back to you shortly.'
-    ];
+
+    if (mb_strlen($message) > 1500) $message = mb_substr($message, 0, 1500);
+    if (count($history) > 10) $history = array_slice($history, -10);
+
+  // 1) FAQ
+  if ($mode === 'faq'
+      && $category
+      && isset($CMES_FAQ_DATA[$category])
+      && isset($CMES_FAQ_DATA[$category][$message])) {
+
+    $answer = $CMES_FAQ_DATA[$category][$message];
+    $showQuoteCTA = cmes_should_show_quote_cta($category, $answer);
+
+    return cmes_response($answer, [], $showQuoteCTA, 'faq');
   }
+
+  // 2) Access Denied (최소)
+  if (cmes_should_deny($message)) {
+    return cmes_response(
+      'Sorry — I can only answer questions related to CMES Robotics products and services. If you share your application details, I can help route you to the right team.',
+      [],
+      true,
+      'denied'
+    );
+  }
+
+  // 3) Chatting → (지금 stub, 나중에 C의 RAG 연결)
+  $rag = cmes_call_rag_module([
+    'message' => $message,
+    'history' => $history,
+    'category' => $category,
+  ]);
+
+  $answer  = isset($rag['answer']) ? (string)$rag['answer'] : '';
+  $sources = (isset($rag['sources']) && is_array($rag['sources'])) ? $rag['sources'] : [];
+
+  if (trim($answer) === '') {
+    $answer = 'I’m not fully sure based on the available CMES information. If you share your application details (product type, box/bag specs, throughput target, layout constraints), I can help more accurately.';
+  }
+
+  $showQuoteCTA = cmes_should_show_quote_cta($category, $message);
+
+  return cmes_response($answer, $sources, $showQuoteCTA, 'rag');
+}
+
+function cmes_response($answer, $sources = [], $showQuoteCTA = false, $type = 'rag') {
+  return [
+    'answer' => $answer,
+    'sources' => $sources,
+    'showQuoteCTA' => (bool)$showQuoteCTA,
+    'type' => $type,
+  ];
+}
+
+function cmes_should_deny($text) {
+  $t = mb_strtolower((string)$text);
+  $pii = ['password', 'ssn', 'social security', 'credit card', 'card number', 'bank account', 'otp'];
+  foreach ($pii as $w) if (strpos($t, $w) !== false) return true;
+
+  $illegal = ['how to hack', 'make a bomb', 'weapon', 'kill', 'steal'];
+  foreach ($illegal as $w) if (strpos($t, $w) !== false) return true;
+
+  return false;
+}
+
+function cmes_should_show_quote_cta($category, $text) {
+  $t = mb_strtolower((string)$text);
+
+  if ($category === 'salesLead') return true;
+
+  $keywords = ['quote', 'pricing', 'price', 'cost', 'demo', 'proposal', 'lead time', 'delivery', 'contact', 'consult'];
+  foreach ($keywords as $k) if (strpos($t, $k) !== false) return true;
+
+  return false;
+}
+
+function cmes_call_rag_module($payload) {
+  // TODO: C가 준 RAG 모듈(함수 or HTTP endpoint) 연결
+  return [
+    'answer' => 'Got it. (stub) AI/RAG will be connected next.',
+    'sources' => [],
+  ];
+}
+  
   
   
