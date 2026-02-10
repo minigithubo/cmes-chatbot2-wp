@@ -139,7 +139,7 @@ add_action('rest_api_init', function () {
     );
   }
 
-  // 3) Chatting → (지금 stub, 나중에 C의 RAG 연결)
+  // 3) Chatting → RAG 연결
   $rag = cmes_call_rag_module([
     'message' => $message,
     'history' => $history,
@@ -190,10 +190,31 @@ function cmes_should_show_quote_cta($category, $text) {
 }
 
 function cmes_call_rag_module($payload) {
-  // TODO: C가 준 RAG 모듈(함수 or HTTP endpoint) 연결
+  // FastAPI RAG endpoint
+  $rag_api_url = 'http://127.0.0.1:8000/chat';
+  
+  $response = wp_remote_post($rag_api_url, [
+    'method'      => 'POST',
+    'timeout'     => 15,
+    'blocking'    => true,
+    'headers'     => ['Content-Type' => 'application/json'],
+    'body'        => json_encode([
+      'question' => $payload['message'],
+    ]),
+  ]);
+
+  if (is_wp_error($response)) {
+    return [
+      'answer' => 'Unable to reach the RAG service. Ensure the API is running on port 8000.',
+      'sources' => [],
+    ];
+  }
+
+  $body = json_decode(wp_remote_retrieve_body($response), true);
+  
   return [
-    'answer' => 'Got it. (stub) AI/RAG will be connected next.',
-    'sources' => [],
+    'answer' => $body['answer'] ?? 'No answer generated.',
+    'sources' => $body['sources'] ?? [],
   ];
 }
   
