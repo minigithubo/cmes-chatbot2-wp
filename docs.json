@@ -1,0 +1,129 @@
+{
+  "documents": [
+    {
+      "id": "faq_industries",
+      "text": "Question: What industries do you serve?\nAnswer: CMES Robotics provides automation solutions across a wide range of industries, including logistics, e-commerce, manufacturing, food and beverage, and consumer packaged goods. Our systems are designed to adapt to different production environments and operational requirements.",
+      "meta": {"category": "Industries", "topic": "Service Range"}
+    },
+    {
+      "id": "faq_partners",
+      "text": "Question: What brands do you partner with?\nAnswer: We work with globally recognized robot manufacturers and automation technology partners. The specific brands and configurations are selected based on the application requirements to ensure optimal performance and reliability.",
+      "meta": {"category": "Partnerships", "topic": "Brands"}
+    },
+    {
+      "id": "faq_capabilities",
+      "text": "Question: What does CMES Robotics do?\nAnswer: CMES Robotics designs and integrates customized robotic automation solutions. Our services include system design, robot integration, vision systems, software development, and full project delivery from concept to commissioning.",
+      "meta": {"category": "Capabilities", "topic": "Services"}
+    },
+    {
+      "id": "faq_benefits",
+      "text": "Question: How do your automation solutions help?\nAnswer: Our automation solutions help companies improve productivity, reduce labor dependency, increase operational consistency, and enhance workplace safety. Each solution is tailored to meet the customer's throughput, space, and process requirements.",
+      "meta": {"category": "Benefits", "topic": "Value Proposition"}
+    },
+    {
+      "id": "eng_robot_types",
+      "text": "Question: What kind of robots are you using?\nAnswer: We utilize industrial robots from leading global manufacturers, including articulated robots, collaborative robots, and specialized picking robots. The robot type is selected based on payload, speed, reach, and application needs.",
+      "meta": {"category": "Engineering", "topic": "Robot Hardware"}
+    },
+    {
+      "id": "eng_throughput",
+      "text": "Question: How many boxes can you handle per hour?\nAnswer: Throughput depends on factors such as box size, weight, robot type, and system layout. In many applications, our systems can handle several hundred to over a thousand boxes per hour. Exact performance is determined during system design and testing.",
+      "meta": {"category": "Engineering", "topic": "Performance"}
+    },
+    {
+      "id": "eng_integration",
+      "text": "Question: What robots do you integrate?\nAnswer: We integrate robots from multiple major robot brands and are not limited to a single manufacturer. This allows us to recommend the most suitable robot platform based on the specific application and customer requirements.",
+      "meta": {"category": "Engineering", "topic": "Integration"}
+    },
+    {
+      "id": "eng_loose_bag",
+      "text": "Question: Do you offer a robotic palletizing/depalletizing solution for a loose bag?\nAnswer: Yes, we offer robotic palletizing and depalletizing solutions for loose bags. These systems are designed with appropriate grippers and vision technologies to handle variations in bag shape, weight, and positioning.",
+      "meta": {"category": "Engineering", "topic": "Specialized Solutions"}
+    },
+    {
+      "id": "eng_sku_handling",
+      "text": "Question: For a piece picking robot, how many different SKU does it handle?\nAnswer: The number of SKUs that can be handled depends on the vision system, gripper design, and product variation. Our piece picking solutions are capable of handling a wide range of SKUs, and the exact capacity is defined based on the project requirements.",
+      "meta": {"category": "Engineering", "topic": "Piece Picking"}
+    },
+    {
+      "id": "eng_pick_speed",
+      "text": "Question: What is the pick up speed per hour?\nAnswer: Pick speed varies depending on product characteristics, robot configuration, and system design. Typical pick rates range from several hundred to over a thousand picks per hour. Performance is validated through system testing and simulation.",
+      "meta": {"category": "Engineering", "topic": "Performance"}
+    },
+    {
+      "id": "sales_demo",
+      "text": "Question: Where can I see a demo?\nAnswer: You can see a demo by scheduling a visit to our demonstration facility or by requesting a virtual demonstration. Please contact our team to arrange a demo that matches your application.",
+      "meta": {"category": "Sales", "topic": "Demos"}
+    },
+    {
+      "id": "sales_quote",
+      "text": "Question: How can I request a quote?\nAnswer: To request a quote, please contact our sales team through the website or provide your application details via the contact form. Our team will review your requirements and follow up with a customized proposal.",
+      "meta": {"category": "Sales", "topic": "Quoting"}
+    },
+    {
+      "id": "sales_lead_time",
+      "text": "Question: What is the lead time?\nAnswer: Lead time varies depending on system complexity, component availability, and project scope. After reviewing your application details, we can provide an estimated lead time tailored to your project.",
+      "meta": {"category": "Sales", "topic": "Lead Time"}
+    },
+    {
+      "id": "sales_delivery_palletizer",
+      "text": "Question: What is a delivery time of robotic palletizer?\nAnswer: Delivery time for a robotic palletizer depends on the system configuration and project requirements. Typical delivery timelines are discussed during the project planning phase after specifications are finalized.",
+      "meta": {"category": "Sales", "topic": "Delivery"}
+    },
+    {
+      "id": "logistics_desc",
+      "text": "Page: Logistics\nSection: Description\nThe unique technology of CMES, which is capable of recognizing atypical products, enables replacement of the highly-intensive and dangerous work that repeatedly occur in the logistics worksite, leading to increased safety and work efficiency in the work environment.",
+      "meta": {"page": "Logistics", "section": "Description"}
+    },
+    {
+      "id": "logistics_standalone",
+      "text": "Page: Logistics\nSection: Standalone Palletizing and De-palletizing Solution\nCMES offers a ready-to-use, standalone platform for automating pallet loading and unloading. It supports rapid deployment within hours, handles diverse case configurations, provides a turnkey off-the-shelf system with minimal setup, boosts warehouse throughput, and reduces manual handling in pallet operations.",
+      "meta": {"page": "Logistics", "section": "Standalone Palletizing"}
+    },
+    {
+      "id": "logistics_mixed_case",
+      "text": "Page: Logistics\nSection: Mixed Case Palletizing\nCMES mixed case palletizing, powered by AI 3D vision, enhances efficiency, reduces labor costs, improves accuracy, and boosts workplace safety. It speeds up palletizing cycles, minimizes product damage, and ensures consistent stacking patterns.",
+      "meta": {"page": "Logistics", "section": "Mixed Case Palletizing"}
+    },
+    {
+      "id": "logistics_random_box",
+      "text": "Page: Logistics\nSection: Random Box Depalletizing\nThe CMES random case depalletizing solution efficiently handles complex logistic products of various sizes, shapes, and textures within fulfillment centers.",
+      "meta": {"page": "Logistics", "section": "Random Box Depalletizing"}
+    },
+    {
+      "id": "eng_grippers",
+      "text": "Question: What types of grippers are available?\nAnswer: Grippers are categorized based on how they grasp objects. 1. Pneumatic (Vacuum) - Uses suction to pick and lift items. 2. Electric (Fork / Clamp) - Uses shape-optimized forks or clamps to grip and lift objects. 3. Hybrid (Pneumatic + Electric) - Combines suction with forks/clamps for stable lifting. 4. Magnetic - Uses strong magnetic force to lift metal objects. CMES can design and manufacture custom grippers optimized for your product.",
+      "meta": {"category": "Engineering", "topic": "Grippers"}
+    },
+    {
+      "id": "auto_overview",
+      "text": "Section: Automotive\nCMES has a comparative advantage in 3D vision and robot technology leading to a deeper understanding of the requirements of smart factory robots, robot control, and 3D vision hardware. CMES creates optimal robot paths and increases the accuracy of automotive processes through advanced vision and robotics integration.",
+      "meta": {"category": "Automotive", "topic": "Overview"}
+    },
+    {
+      "id": "auto_glass_door_assembly",
+      "text": "Application: Glass/Door Assembly Guidance\nDescription: Used for glass assembly on front/rear trunk and sunroof in the vehicle body and assembly process. CMES Multiline Laser 3D Vision Sensor accurately measures the position of assembly objects and their relationship with the vehicle body in real time. Robots assemble accurately by converting coordinates into six-axis robot coordinate system.\nFeatures: Measurement of gap between vehicle body and glass with unique multiline laser sensor through one-time shooting. Generation of six-axis robot coordinate system. Compatibility with different kinds of industrial-use and collaborative robots.",
+      "meta": {"category": "Automotive", "topic": "Glass/Door Assembly"}
+    },
+    {
+      "id": "auto_ubs_sealing",
+      "text": "Application: Under Body Sealing (UBS) Guidance\nDescription: Used in the Under Body Sealing process prior to the painting stage to prevent corrosion on the bottom of the vehicle body. CMES UBS 3D Vision System uses a high-resolution 3D scanner to generate optimal robot paths for sealing. Time and labor costs can be reduced by one-third compared to manual teaching.\nFeatures: Sealing path generation based on 3D CAD. Prevention of collision among multiple robots using simulation. Compatibility with different kinds of industrial-use and collaborative robots.",
+      "meta": {"category": "Automotive", "topic": "Under Body Sealing"}
+    },
+    {
+      "id": "auto_bin_picking",
+      "text": "Application: Random Bin Picking for Automotive Parts\nDescription: CMES 3D Random Bin Picking System equipped with AI Deep Learning to recognize target objects and prevent robot collision. Delivers accurate gripping points to pick automobile components loaded randomly and generate optimal robot paths for error-free pick and place operations.\nFeatures: AI Deep Learning Core. Set-up of multiple gripping points. Generation of robot paths to avoid robot collision.",
+      "meta": {"category": "Automotive", "topic": "Random Bin Picking"}
+    },
+    {
+      "id": "auto_screw_alignment",
+      "text": "Application: Screw Bolt Position Alignment\nDescription: Used in screw assembly processes in engine assembly and final assembly factories. 3D Vision System inspects screw tightening positions on target objects to deliver accurate tightening positions to robots, achieving complete robot automation.\nFeatures: Recognition of different screw hole sizes and screw tightening positions using 3D Vision. Compatibility with different kinds of industrial-use and collaborative robots.",
+      "meta": {"category": "Automotive", "topic": "Screw Assembly"}
+    },
+    {
+      "id": "auto_pallet_palletization",
+      "text": "Application: Palletization Handling Irregularly Formed Pallets\nDescription: Used in vehicle panel or part loading and purging processes. Robot automation can be achieved where automation is difficult due to different pallet shapes and position changes. 3D Vision System recognizes pallet and product loading positions for automatic purging and sequential palletizing.\nFeatures: Accurate recognition of pallet position and target loading position. Recognition of front bar position and closing point. Flexible production line for small quantity batch production. Compatibility with different kinds of industrial-use and collaborative robots.",
+      "meta": {"category": "Automotive", "topic": "Palletization"}
+    }
+  ]
+}

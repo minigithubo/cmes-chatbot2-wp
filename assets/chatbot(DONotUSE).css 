@@ -1,0 +1,319 @@
+/* =================================================
+/* ===== Root isolation (회사 사이트 CSS 차단) ===== */
+/* ================================================= */
+#cmes-chatbot-root,
+#cmes-chatbot-root * {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+#cmes-chatbot-root img {
+  display: block;
+  max-width: 100%;
+}
+#cmes-chatbot-root .chatbot-trigger,
+#cmes-chatbot-root .chatbot-trigger * {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  background: transparent;
+}
+
+#cmes-chatbot-root .chatbot-trigger,
+#cmes-chatbot-root .chatbot-trigger:hover,
+#cmes-chatbot-root .chatbot-trigger:focus,
+#cmes-chatbot-root .chatbot-trigger:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#cmes-chatbot-root .chatbot-trigger {
+    border: none !important;
+    background: transparent !important;
+  }
+  
+  #cmes-chatbot-root .chatbot-trigger img {
+    background: transparent !important;
+  }
+  #cmes-chatbot-root .chatbot-trigger:focus-visible {
+  outline: none !important;
+}
+
+/* ================================================= */
+/* ===== Chat Widget Box ===== */
+/* ================================================= */
+.chat-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 100px;
+  width: 420px;
+  height: 660px;
+  background: #ffffff;
+  border-radius: 36px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  z-index: 1001;
+
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+
+  animation: chat-fade-up 0.25s ease;
+}
+
+/* ================================================= */
+/* ===== Header ===== */
+/* ================================================= */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 12px;
+}
+
+.chat-active {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+}
+
+.chat-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+}
+
+.chat-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.chat-notify {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.2;
+    margin-top: 2px;
+}
+
+.chat-close {
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* ================================================= */
+/* ===== Body ===== */
+/* ================================================= */
+.chat-body {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+/* ================================================= */
+/* ===== Chat Bubbles (핵심) ===== */
+/* ================================================= */
+.chat-bubble {
+  position: relative;
+  max-width: 70%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+
+  display: block;
+  text-align: left;
+  word-break: break-word;
+}
+
+.chat-bubble p {
+  margin: 0;
+}
+
+/* assistant (왼쪽) */
+.chat-bubble.assistant {
+  background: #000;
+  color: #fff;
+  margin-right: auto;
+}
+
+/* user (오른쪽) */
+.chat-bubble.user {
+  background: #e9e9e9;
+  color: #111;
+  margin-left: auto;
+}
+
+/* ================================================= */
+/* ===== Time ===== */
+/* ================================================= */
+.chat-time {
+  position: absolute;
+  bottom: -14px;
+  font-size: 11px;
+  color: rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+.chat-bubble.assistant .chat-time {
+  right: -52px;
+}
+
+.chat-bubble.user .chat-time {
+  left: -52px;
+}
+
+/* ================================================= */
+/* ===== Quick Actions (Category buttons) ===== */
+/* ================================================= */
+.quick-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.quick-btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 3px solid #000;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .quick-btn:hover {
+    background: #fff;
+  }
+  
+  .quick-btn.active {
+    background: #fff;
+    color: #000;
+  }
+  
+  
+/* ================================================= */
+/* ===== FAQ Buttons ===== */
+/* ================================================= */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.faq-btn {
+    display: inline-flex;
+    align-items: center;
+  
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 3px solid #000;
+  
+    background: #fff;
+    color: #000;
+  
+    font-size: 14px;
+    line-height: 1.4;
+  
+    cursor: pointer;
+  }
+  
+  .faq-btn:hover {
+    background: #fff;
+  }
+  
+  .faq-btn.active {
+    background: #000;
+    color: #fff;
+  }
+  .quick-btn,
+.faq-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+  
+
+/* ================================================= */
+/* ===== Bottom Input ===== */
+/* ================================================= */
+.chat-bottom {
+  border-top: 1px solid #ddd;
+  padding: 10px 12px;
+}
+
+.chat-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 6px 0;
+}
+
+.chat-input::placeholder {
+  color: #aaa;
+}
+
+.chat-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.chat-bottom-icon {
+  display: flex;
+  gap: 12px;
+}
+
+.chat-bottom-icon img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.65;
+}
+
+.chat-send img {
+  width: 34px;
+  height: 34px;
+}
+
+/* ================================================= */
+/* ===== Trigger Button ===== */
+/* ================================================= */
+.chatbot-trigger {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 1000;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-trigger img {
+  width: 100px;
+  height: 100px;
+}
+.chatbot-trigger:focus,
+.chatbot-trigger:active,
+.chatbot-trigger:focus-visible {
+  background: transparent;
+  outline: none;
+} 
