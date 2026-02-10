@@ -98,7 +98,7 @@ print("Documents embedded and stored.")
 # -------------------------
 # 6. Similarity search
 # -------------------------
-query = "How does CMES improve safety in logistics?"
+query = "Where can I see a demo?"
 
 results = collection.query(
     query_texts=[query],
