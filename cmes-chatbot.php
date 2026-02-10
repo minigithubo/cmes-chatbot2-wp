@@ -61,8 +61,7 @@ $CMES_FAQ_DATA = [
     $base = plugin_dir_url(__FILE__);
     $dir  = plugin_dir_path(__FILE__);
 
-    $css = $dir . 'assets/chatbot.css';
-    $api = $dir . 'assets/chat-api.js';
+    $api = $dir . 'assets/apiservice.js';
     $ui  = $dir . 'assets/chatbot.js';
   
     wp_enqueue_style(
@@ -74,7 +73,7 @@ $CMES_FAQ_DATA = [
 
   wp_enqueue_script(
     'cmes-chatbot-api',
-    $base . 'assets/chat-api.js',
+    $base . 'assets/apiservice.js',
     [],
     file_exists($api) ? filemtime($api) : null,
     true
@@ -106,8 +105,8 @@ add_action('rest_api_init', function () {
     $p = $request->get_json_params();
 
     $message  = isset($p['message']) ? wp_strip_all_tags((string)$p['message']) : '';
-    $mode     = isset($p['mode']) ? sanitize_key((string)$p['mode']) : 'chatting';
-    $category = isset($p['category']) ? sanitize_text_field((string)$p['category']) : '';
+    $mode     = isset($p['mode']) ? (string)$p['mode'] : 'chatting';
+    $category = isset($p['category']) ? (string)$p['category'] : '';
     $history  = (isset($p['history']) && is_array($p['history'])) ? $p['history'] : [];
 
     $message = trim($message);
