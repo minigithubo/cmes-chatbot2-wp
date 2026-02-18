@@ -124,6 +124,81 @@
       "id": "auto_pallet_palletization",
       "text": "Application: Palletization Handling Irregularly Formed Pallets\nDescription: Used in vehicle panel or part loading and purging processes. Robot automation can be achieved where automation is difficult due to different pallet shapes and position changes. 3D Vision System recognizes pallet and product loading positions for automatic purging and sequential palletizing.\nFeatures: Accurate recognition of pallet position and target loading position. Recognition of front bar position and closing point. Flexible production line for small quantity batch production. Compatibility with different kinds of industrial-use and collaborative robots.",
       "meta": {"category": "Automotive", "topic": "Palletization"}
+    },
+    {
+      "id": "contact_info",
+      "text": "Question: How can I contact CMES Robotics?\nAnswer: You can reach CMES Robotics through the contact form on our website, by email, or by phone. For quotes and demos, use the website contact form with your application details. Our sales team will review your requirements and follow up with a customized proposal or demo arrangement.",
+      "meta": {"category": "Contact", "topic": "How to Reach"}
+    },
+    {
+      "id": "about_company",
+      "text": "Page: About CMES Robotics\nCMES Robotics designs and integrates customized robotic automation solutions. Our services include system design, robot integration, vision systems, software development, and full project delivery from concept to commissioning. We serve logistics, e-commerce, manufacturing, food and beverage, and consumer packaged goods industries with solutions tailored to throughput, space, and process requirements.",
+      "meta": {"page": "About", "section": "Company Overview"}
+    },
+    {
+      "id": "tech_3d_vision",
+      "text": "Page: Technology\nSection: 3D Vision Systems\nCMES uses 3D vision technology for accurate recognition and robot guidance. This includes multiline laser sensors for one-shot measurement, high-resolution 3D scanners for path generation, and vision systems that work with industrial and collaborative robots. 3D vision enables handling of varied product shapes, sizes, and positions in logistics and automotive applications.",
+      "meta": {"category": "Technology", "topic": "3D Vision"}
+    },
+    {
+      "id": "tech_ai",
+      "text": "Page: Technology\nSection: AI and Deep Learning\nCMES applies AI and deep learning in solutions such as random bin picking and mixed case handling. AI is used to recognize target objects, avoid robot collision, and deliver accurate gripping points. This improves accuracy and flexibility in applications with high product variation.",
+      "meta": {"category": "Technology", "topic": "AI"}
+    },
+    {
+      "id": "process_engagement",
+      "text": "Question: How does working with CMES work?\nAnswer: CMES delivers projects from concept to commissioning. Typical steps include: sharing your application details, consultation and system design, customized proposal and quote, project planning, delivery, and commissioning. You can request a demo at our demonstration facility or a virtual demonstration. Contact the team via the website to start.",
+      "meta": {"category": "Sales", "topic": "Project Process"}
+    },
+    {
+      "id": "piece_picking_solution",
+      "text": "Page: Solutions\nSection: Piece Picking\nCMES piece picking solutions use vision systems and grippers to pick individual items or SKUs. Pick rates and SKU capacity depend on product characteristics, robot configuration, and system design. Solutions are used in e-commerce fulfillment, distribution, and order fulfillment where mixed-SKU handling is required.",
+      "meta": {"page": "Solutions", "section": "Piece Picking"}
+    },
+    {
+      "id": "ecommerce_overview",
+      "text": "Page: E-commerce\nSection: Overview\nCMES provides automation for e-commerce and fulfillment, including piece picking, mixed case palletizing, and depalletizing. Solutions help increase throughput, reduce labor, and improve accuracy in order fulfillment and distribution centers. Systems adapt to diverse product sizes and SKU mixes common in e-commerce.",
+      "meta": {"page": "E-commerce", "section": "Overview"}
+    },
+    {
+      "id": "manufacturing_overview",
+      "text": "Page: Manufacturing\nSection: Overview\nCMES serves manufacturing with robotic automation including assembly guidance, machine tending, and material handling. Our 3D vision and robot integration support smart factory requirements. Solutions are used in automotive, general assembly, and production environments for consistency, speed, and safety.",
+      "meta": {"page": "Manufacturing", "section": "Overview"}
+    },
+    {
+      "id": "fob_overview",
+      "text": "Page: Food and Beverage\nSection: Overview\nCMES offers automation for food and beverage operations, including palletizing and depalletizing. Solutions can be designed to meet hygiene and compliance requirements of food production. Gripper and vision options accommodate bags, cases, and varied product types common in F&B.",
+      "meta": {"page": "Food and Beverage", "section": "Overview"}
+    },
+    {
+      "id": "cpg_overview",
+      "text": "Page: Consumer Packaged Goods (CPG)\nSection: Overview\nCMES automation supports CPG with palletizing, depalletizing, and handling of cases and mixed loads. Systems improve throughput and consistency in production and distribution. Solutions are tailored to line speed, product mix, and space constraints typical in CPG facilities.",
+      "meta": {"page": "CPG", "section": "Overview"}
+    },
+    {
+      "id": "support_aftersales",
+      "text": "Question: Do you offer support after installation?\nAnswer: CMES provides support for our automation systems. After commissioning, our team can assist with operation, maintenance, and troubleshooting. Contact us for support options and service agreements tailored to your site.",
+      "meta": {"category": "Support", "topic": "After-Sales"}
+    },
+    {
+      "id": "support_warranty",
+      "text": "Question: What about warranty?\nAnswer: Warranty and service terms for CMES systems are provided with your project and proposal. Specific coverage depends on the system and contract. Contact our team for warranty details for your application.",
+      "meta": {"category": "Support", "topic": "Warranty"}
+    },
+    {
+      "id": "certifications",
+      "text": "Question: Is CMES certified?\nAnswer: CMES integrates industry-standard robot and automation components. System design and integration follow applicable safety and quality practices. For specific certifications or compliance requirements for your industry or region, contact our team.",
+      "meta": {"category": "Company", "topic": "Certifications"}
+    },
+    {
+      "id": "product_multiline_laser",
+      "text": "Product: CMES Multiline Laser 3D Vision Sensor\nUsed for glass and door assembly guidance in automotive. Measures the position of assembly objects and their relationship with the vehicle body in real time. Features one-time shooting for gap measurement between vehicle body and glass, generation of six-axis robot coordinates, and compatibility with industrial and collaborative robots.",
+      "meta": {"category": "Products", "topic": "3D Vision Sensor"}
+    },
+    {
+      "id": "product_ubs_vision",
+      "text": "Product: CMES UBS 3D Vision System\nUsed in Under Body Sealing (UBS) before painting to prevent corrosion. High-resolution 3D scanner generates optimal robot paths for sealing. Reduces time and labor by about one-third versus manual teaching. Features sealing path generation from 3D CAD and collision prevention for multiple robots via simulation.",
+      "meta": {"category": "Products", "topic": "UBS Vision"}
     }
   ]
 }
