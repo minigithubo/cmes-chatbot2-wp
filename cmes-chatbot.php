@@ -191,7 +191,7 @@ function cmes_should_show_quote_cta($category, $text) {
 
 function cmes_call_rag_module($payload) {
   // FastAPI RAG endpoint
-  $rag_api_url = 'http://127.0.0.1:8000/chat';
+  $rag_api_url = 'https://cyano-jene-partis.ngrok-free.dev/chat';
   
   $response = wp_remote_post($rag_api_url, [
     'method'      => 'POST',
