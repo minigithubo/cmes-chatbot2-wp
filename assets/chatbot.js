@@ -7,6 +7,9 @@
   let open = false;
   let mode = "init"; // init | chatting | faq
   let selectedCategory = null;
+  let hasPlayedMessagesFadeUp = false;
+  let botIsTyping = false;
+  const BOT_THINKING_DELAY_MS = 1400; // min delay before showing reply (feels like "typing")
 
   const messages = []; 
 
@@ -58,17 +61,18 @@
         position: fixed;
         right: 24px;
         bottom: 100px;
-        width: 420px;
-        height: 660px;
+        width: 450px;
+        height: 600px;
         background: #ffffff;
-        border-radius: 40px;
+        border-radius: 60px;
         box-shadow: 0 12px 32px rgba(0,0,0,0.2);
         z-index: 1001;
         flex-direction: column;
         padding: 16px;
         /* 살짝 올라오는 효과 */
         animation: chat-fade-up 0.25s ease;
-        display: flex;  
+        display: flex;
+        font-family: inherit;
         
       }
       /*Chat Header*/
@@ -119,14 +123,15 @@
         padding: 16px;
         font-size: 14px;
         color: #eeebeb;
-        overflow-y: auto;     
+        overflow-y: auto;
+        overflow-x: hidden;     
       }
 
       /*Chat box */
       .chat-bubble{
         position: relative;
         max-width: 50%;
-        background: #030304;
+        background: #3B0694;
         border-radius: 19px;
         padding: 16px;
         font-size: 14px;
@@ -137,6 +142,7 @@
         display: flex;
         flex-direction: column;
         text-align: center;
+        font-family: inherit;
         
       }
       .chat-bubble.user {
@@ -148,7 +154,7 @@
         left: -320px;
         bottom: 1px;
         font-size: 11px;
-        color: rgba(0,0,0,0.4);
+        color: rgba(36,35,44,0.4);
       }
       
       .chat-bubble p {
@@ -165,14 +171,20 @@
         gap: 8px;
         flex-wrap: wrap;
       }
+      .faq-list {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
       /* 버튼 */
       .quick-btn, .faq-btn {
         padding: 8px;
         border-radius: 20px;
-        border: 2px solid #0b0a10;
-        background: white;
-        color: #09080d;
+        border: 2px solid #24232C;
+        background: 3B0694;
+        color: #24232C;
         font-size: 13px;
+        font-family: inherit;
         cursor: pointer;
       }
       .chat-time {
@@ -180,7 +192,7 @@
         right: -49px;
         bottom: -1px;   /* 음수 = 말풍선 밖 */
         font-size: 11px;
-        color: rgba(0,0,0,0.4);
+        color: rgba(36,35,44,0.4);
         white-space: nowrap;
       }
       .chat-bottom {
@@ -196,9 +208,10 @@
         border: none;
         outline: none;
         font-size: 18px;
-        color: #000;
+        color: #24232C;
         padding: 8px 0;
         background: transparent;
+        font-family: inherit;
       }
       
       .chat-input::placeholder {
@@ -250,29 +263,62 @@
       height: 35px;
       }
     /* ================================================= */
-    /* ===== Chatbot Trigger Button ===== */
+    /* ===== Quick Contact / Chatbot Trigger (reference: a._quick_contact) ===== */
     /* ================================================= */
 
     .chatbot-trigger {
         position: fixed;
         right: 24px;
-        bottom: 24px;
-        width: 64px;
-        height: 64px;
+        bottom: 50px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         border: none;
         background: none;
         cursor: pointer;
         z-index: 1000;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s, opacity 0.3s;
+        text-decoration: none;
+        color: #fff;
+      }
+      .chatbot-trigger::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(59, 6, 148, 1) 20%, rgba(0, 159, 227, 1) 180%);
+        border-radius: 50%;
+        transition: opacity 0.3s;
+        z-index: 0;
+      }
+      .chatbot-trigger::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgb(193, 156, 255) 30%, rgb(26, 213, 255) 100%);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 0;
+      }
+      .chatbot-trigger:hover::before { opacity: 0; }
+      .chatbot-trigger:hover::after { opacity: 1; }
+      .chatbot-trigger .chatbot-trigger-icon {
+        position: relative;
+        z-index: 2;
+        width: 20px;
+        height: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      
-      .chatbot-trigger img {
-        width: 104px;
-        height: 104px;
+      .chatbot-trigger .chatbot-trigger-icon svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
       }
       .chat-bubble {
         display: flex;
@@ -288,11 +334,107 @@
       .chat-bubble.user {
         margin-left: auto;
         background: #e9e9e9;
-        color: #111;
+        color: #24232C;
       }
       
       .chat-bubble.assistant {
         margin-right: auto;
+      }
+      
+      /* AI Agent Notification */
+      .ai-agent-notification {
+        color: #888;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 12px;
+        animation: fade-in-out 3s ease-in-out;
+      }
+      
+      /* Messages Container - appears after notification */
+      .messages-container {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .messages-container.first-transition {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fade-in-slide 0.8s ease-in-out 1s forwards;
+      }
+      
+      @keyframes fade-in-out {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      
+      @keyframes fade-in-slide {
+        0% { 
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% { 
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Typing indicator (bot is "thinking") */
+      .typing-indicator {
+        align-self: flex-start;
+        margin-right: auto;
+        margin-bottom: 12px;
+        width: fit-content;
+        flex-shrink: 0;
+        background: #e9e9e9;
+        border-radius: 18px;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        animation: typing-bubble-in 0.25s ease-out;
+      }
+      @keyframes typing-bubble-in {
+        0% { opacity: 0; transform: translateY(8px) scale(0.96); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .typing-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #888;
+        animation: typing-bounce 0.6s ease-in-out infinite;
+      }
+      .typing-dot:nth-child(1) { animation-delay: 0s; }
+      .typing-dot:nth-child(2) { animation-delay: 0.12s; }
+      .typing-dot:nth-child(3) { animation-delay: 0.24s; }
+      @keyframes typing-bounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-5px); }
+      }
+      
+      /* Assistant reply slides in from left (incoming text feel) */
+      .chat-bubble.assistant.assistant-slide-in {
+        animation: assistant-msg-slide-in 0.35s ease-out forwards;
+      }
+      @keyframes assistant-msg-slide-in {
+        0% {
+          opacity: 0;
+          transform: translateX(-12px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      /* User message status (Sent / Read) */
+      .chat-bubble.user .msg-status {
+        font-size: 10px;
+        color: rgba(36,35,44,0.35);
+        margin-top: 4px;
+        font-weight: 500;
       }
       
     `;
@@ -303,10 +445,14 @@
   shadow.appendChild(root);
 
 
-  // trigger button (chatbot button)
+  // Message icon: speech bubble with lines (no external font – always renders)
+  const messageIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 11H6v-2h12v2zm0-3H6V8h12v2zm0-3H6V5h12v2z"/></svg>`;
+
   const trigger = document.createElement("button");
   trigger.className = "chatbot-trigger";
-  trigger.innerHTML = `<img src="${BASE}assets/public/nmnm.png" alt="Chat" />`;
+  trigger.type = "button";
+  trigger.setAttribute("aria-label", "Open chat");
+  trigger.innerHTML = `<span class="chatbot-trigger-icon">${messageIconSvg}</span>`;
   trigger.onclick = () => {
     open = true;
 
@@ -362,9 +508,12 @@
   }
   //message 배열에 들어있는 모든 메세지를 하나씩 돌면서 각각 말풍선 html 로 바꾸는 함수
   function renderMessagesHtml() {
+    const lastIdx = messages.length - 1;
     return messages
-      .map((m) => {
-        const cls = m.role === "user" ? "chat-bubble user" : "chat-bubble assistant";
+      .map((m, i) => {
+        let cls = m.role === "user" ? "chat-bubble user" : "chat-bubble assistant";
+        if (m.role === "user" && i === lastIdx) cls += " user-slide-up";
+        if (m.role === "assistant" && i === lastIdx) cls += " assistant-slide-in";
         const safe = escapeHtml(m.text).replaceAll("\n", "<br/>");
         const time = m.time ? `<span class="chat-time">${m.time}</span>` : ""; // add time
         return `<div class="${cls}"><p>${safe}</p>${time}</div>`;
@@ -393,8 +542,8 @@
     return `
       <div class="quick-actions">
         <button class="quick-btn" data-cat="companyInfo">Company info</button>
-        <button class="quick-btn" data-cat="engineering">Engineering</button>
-        <button class="quick-btn" data-cat="salesLead">Sales/Lead</button>
+        <button class="quick-btn" data-cat="engineering">Learn about engineering</button>
+        <button class="quick-btn" data-cat="salesLead">Contact sales/Lead</button>
       </div>
     `;
   }
@@ -416,9 +565,13 @@
         </div>
 
         <div class="chat-body">
-          ${renderMessagesHtml()}
-          ${renderQuickActionsHtml()}
-          ${mode === "faq" ? renderFaqButtonsHtml() : ""}
+          <div class="ai-agent-notification">AI Agent has joined the chat.</div>
+          <div class="messages-container${hasPlayedMessagesFadeUp ? "" : " first-transition"}">
+            ${renderMessagesHtml()}
+            ${botIsTyping ? '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>' : ""}
+            ${renderQuickActionsHtml()}
+            ${mode === "faq" ? renderFaqButtonsHtml() : ""}
+          </div>
         </div>
 
         <div class="chat-bottom">
@@ -469,24 +622,27 @@
       input.value = "";
       render();
 
-      //answer demo version when user ask questions. 
+      botIsTyping = true;
+      render();
+
+      const thinkingDelay = new Promise((r) => setTimeout(r, BOT_THINKING_DELAY_MS));
       (async () => {
         try {
-          const res = await CMESChatAPI.sendChatMessage({
+          const apiPromise = CMESChatAPI.sendChatMessage({
             message: value,
             history: messages,
             mode: "chatting",
             category: selectedCategory
           });
-      
+          const res = (await Promise.all([thinkingDelay, apiPromise]))[1];
           addAssistantMessage(res.answer);
-          render();
         } catch (err) {
+          await thinkingDelay;
           addAssistantMessage("Sorry, something went wrong.");
-          render();
         }
+        botIsTyping = false;
+        render();
       })();
-      
     }
 
     input.addEventListener("keydown", (e) => {
@@ -510,7 +666,7 @@
         addUserMessage(label);
 
         // 봇 안내
-        addAssistantMessage("Here are some frequently asked questions. Or you can type your own question as well");
+        addAssistantMessage("Here are some frequently asked questions. Or you can type your own question as well!");
         mode = "faq";
         render();
       };
@@ -519,26 +675,35 @@
     // faq button click
     const faqBtns = root.querySelectorAll(".faq-btn");
     faqBtns.forEach((b) => { 
-      b.onclick = async () => { 
-      const faqId = b.getAttribute("data-faq-id"); 
-      const label = b.textContent.trim(); addUserMessage(label);
+      b.onclick = () => { 
+        const faqId = b.getAttribute("data-faq-id"); 
+        const label = b.textContent.trim();
+        addUserMessage(label);
+        mode = "chatting";
+        render();
 
-      mode = "chatting";
-      render();
-      try {
-        const res = await CMESChatAPI.sendChatMessage({
-          message: faqId, // ✅ ID 보냄 
-          mode: "faq",
-          category: selectedCategory
-        }); 
-        addAssistantMessage(res.answer); 
-        render(); 
-      } catch (err) { 
-        addAssistantMessage("Sorry, I couldn't find an answer.");
-        render(); 
-      } 
-    }; 
-  });
+        botIsTyping = true;
+        render();
+
+        const thinkingDelay = new Promise((r) => setTimeout(r, BOT_THINKING_DELAY_MS));
+        (async () => {
+          try {
+            const apiPromise = CMESChatAPI.sendChatMessage({
+              message: faqId,
+              mode: "faq",
+              category: selectedCategory
+            });
+            const res = (await Promise.all([thinkingDelay, apiPromise]))[1];
+            addAssistantMessage(res.answer);
+          } catch (err) {
+            await thinkingDelay;
+            addAssistantMessage("Sorry, I couldn't find an answer.");
+          }
+          botIsTyping = false;
+          render();
+        })();
+      }; 
+    });
 
     // mic demo
     const micBtn = root.querySelector("#micBtn");
@@ -554,6 +719,8 @@
     // 렌더 후 스크롤 바닥
     scrollBodyToBottom();
     input.focus();
+
+    if (open) hasPlayedMessagesFadeUp = true;
   }
 
   // 녹음 상태
