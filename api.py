@@ -10,9 +10,9 @@ app_state = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Load docs and setup Chroma once
+    # Startup: Load docs (docs.json + whitepaper.json) and setup Chroma once
     print("Initializing RAG system...")
-    docs = load_docs()
+    docs = load_docs()  # loads from chat.RAG_DOC_SOURCES
     client, collection = setup_chroma()
     ingest_docs(collection, docs)
     
@@ -33,13 +33,14 @@ async def chat_endpoint(request: QueryRequest):
         raise HTTPException(status_code=400, detail="No question provided")
     
     try:
-        # Reuse your existing query_rag function
-        answer = query_rag(app_state["collection"], request.question)
-        return {"answer": answer}
+        # Semantic search (Chroma embeddings) + LLM; returns answer + sources
+        result = query_rag(app_state["collection"], request.question)
+        return {"answer": result["answer"], "sources": result.get("sources", [])}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
-    # Run on localhost port 8000
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)
