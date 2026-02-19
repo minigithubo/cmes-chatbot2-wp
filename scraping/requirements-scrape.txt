@@ -1,3 +1,0 @@
-# For scrape_docs.py (efficient site → docs.json scraper)
-requests>=2.28.0
-beautifulsoup4>=4.11.0
