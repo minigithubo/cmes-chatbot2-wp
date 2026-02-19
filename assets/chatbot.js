@@ -62,10 +62,10 @@
         right: 24px;
         bottom: 100px;
         width: 450px;
-        height: 600px;
+        height: 650px;
         background: #ffffff;
-        border-radius: 60px;
-        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        border-radius: 28px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
         z-index: 1001;
         flex-direction: column;
         padding: 16px;
@@ -85,24 +85,39 @@
         justify-content: space-between;
         font-weight: 800;
       }
+      .chat-avatar-wrap {
+        position: relative;
+        flex-shrink: 0;
+        line-height: 0;
+      }
       .chat-avatar {
-        width: 60px;
-        height: 60px;
+        width: 48px;
+        height: 48px;
+        display: block;
+      }
+      .chat-avatar-status {
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
-        
+        background: #22c55e;
+        border: 2px solid #fff;
       }
       .chat-active{
         display: flex;
         align-items: center;
       }
       .chat-title {
-        display: grid;
+        display: flex;
         flex-direction: column;
-        margin-left: 10px; /* ← 오른쪽으로 살짝 이동 */
+        margin-left: 12px;
       }
       .chat-name {
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 700;
+        color: #24232C;
       }
       .chat-notify {
         font-size: 12px;
@@ -112,9 +127,11 @@
       .chat-close {
         background: none;
         border: none;
-        font-size: 28px;
+        font-size: 22px;
         cursor: pointer;
-        padding-right:1pt;
+        padding: 4px;
+        color: #333;
+        line-height: 1;
       }
       
       /*Chat Body*/
@@ -127,34 +144,58 @@
         overflow-x: hidden;     
       }
 
+      /* Message row: bubble + timestamp side by side */
+      .msg-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        margin-bottom: 12px;
+        max-width: 100%;
+      }
+      .msg-row.assistant {
+        align-self: flex-start;
+      }
+      .msg-row.user {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+      }
+      .msg-row .chat-time {
+        position: static;
+        flex-shrink: 0;
+        font-size: 11px;
+        color: rgba(36,35,44,0.45);
+        white-space: nowrap;
+        margin-bottom: 2px;
+      }
       /*Chat box */
       .chat-bubble{
         position: relative;
-        max-width: 50%;
-        background: #3B0694;
-        border-radius: 19px;
-        padding: 16px;
+        max-width: 300px;
+        width: 300px;
+        padding: 14px 16px;
         font-size: 14px;
         line-height: 1.4;
-        margin-bottom: 12px;
-        display: inline-block;  /* 핵심 */
         word-break: break-word;
         display: flex;
         flex-direction: column;
-        text-align: center;
         font-family: inherit;
-        
+        box-sizing: border-box;
+      }
+      .chat-bubble.assistant {
+        background: #333333;
+        color: #fff;
+        border-radius: 19px 19px 19px 4px;
+        text-align: left;
+        align-self: flex-start;
       }
       .chat-bubble.user {
-        position: relative;
-      }
-      
-    .chat-bubble.user .chat-time {
-        position: absolute;
-        left: -320px;
-        bottom: 1px;
-        font-size: 11px;
-        color: rgba(36,35,44,0.4);
+        background: #EFEFEF;
+        color: #24232C;
+        border-radius: 19px 19px 4px 19px;
+        text-align: right;
+        align-self: flex-end;
+        width: auto;
+        max-width: 300px;
       }
       
       .chat-bubble p {
@@ -162,183 +203,151 @@
         line-height: 1.4;
       }
       
-      /* 두 문장 사이 간격만 아주 살짝 */
       .chat-bubble p + p {
         margin-top: 6px;
       }
       .quick-actions {
         display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 300px;
       }
       .faq-list {
         display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 300px;
       }
-      /* 버튼 */
       .quick-btn, .faq-btn {
-        padding: 8px;
-        border-radius: 20px;
-        border: 2px solid #24232C;
-        background: 3B0694;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid #24232C;
+        background: #fff;
         color: #24232C;
         font-size: 13px;
         font-family: inherit;
         cursor: pointer;
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
       }
-      .chat-time {
-        position: absolute;
-        right: -49px;
-        bottom: -1px;   /* 음수 = 말풍선 밖 */
-        font-size: 11px;
-        color: rgba(36,35,44,0.4);
-        white-space: nowrap;
+      .faq-btn {
+        white-space: normal;
       }
       .chat-bottom {
-        border-top: 1px solid #dbd6d6;
+        border-top: 1px solid #e5e5e5;
         padding: 12px 16px;
       }
       .chat-input-wrapper {
-        margin-bottom: 8px;
+        margin-bottom: 2px;
       }
-      
+      .chat-input-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f5f5f5;
+        border-radius: 24px;
+        padding: 10px 14px 10px 18px;
+        margin-bottom: 4px;
+      }
       .chat-input {
-        width: 100%;
+        flex: 1;
         border: none;
         outline: none;
-        font-size: 18px;
+        font-size: 15px;
         color: #24232C;
-        padding: 8px 0;
+        padding: 4px 0;
         background: transparent;
         font-family: inherit;
+        min-width: 0;
       }
       
       .chat-input::placeholder {
         color: #aaa;
       }
-      .chat-placeholder {
-        color: #aaa;
-        font-size: 14px;
-        display: block;
+      .chat-powered-by {
+        text-align: center;
+        font-size: 10px;
+        color: #999;
+        letter-spacing: 0.05em;
         margin-bottom: 8px;
       }
       
       .chat-bottom-row {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
       }
       
       .chat-bottom-icon {
         display: flex;
-        gap: 12px;
+        gap: 8px;
+        margin-right: 8px;
       }
-      .chat-bottom-icon button {
+      .chat-bottom-icon button,
+      .chat-input-row .chat-microphone {
         background: none;
         border: none;
         padding: 0;
         width: auto;
         height: auto;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      .chat-bottom-icon img {
+      .chat-bottom-icon img,
+      .chat-input-row .chat-microphone img {
         width: 20px;
         height: 22px;
-        opacity: 0.65;
+        opacity: 0.6;
       }
       .chat-send {
         width: 42px;
         height: 42px;
-        background:none;
+        border-radius: 50%;
+        background: #333;
         border: none;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        flex-shrink: 0;
       }
       
       .chat-send img {
-      width: 35px;
-      height: 35px;
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) invert(1);
       }
     /* ================================================= */
-    /* ===== Quick Contact / Chatbot Trigger (reference: a._quick_contact) ===== */
+    /* ===== Chatbot Trigger Button ===== */
     /* ================================================= */
 
     .chatbot-trigger {
         position: fixed;
         right: 24px;
-        bottom: 50px;
-        width: 50px;
-        height: 50px;
+        bottom: 24px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         border: none;
         background: none;
         cursor: pointer;
         z-index: 1000;
-        padding: 0;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.3s, opacity 0.3s;
-        text-decoration: none;
-        color: #fff;
-      }
-      .chatbot-trigger::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(59, 6, 148, 1) 20%, rgba(0, 159, 227, 1) 180%);
-        border-radius: 50%;
-        transition: opacity 0.3s;
-        z-index: 0;
-      }
-      .chatbot-trigger::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgb(193, 156, 255) 30%, rgb(26, 213, 255) 100%);
-        border-radius: 50%;
-        opacity: 0;
-        transition: opacity 0.3s;
-        z-index: 0;
-      }
-      .chatbot-trigger:hover::before { opacity: 0; }
-      .chatbot-trigger:hover::after { opacity: 1; }
-      .chatbot-trigger .chatbot-trigger-icon {
-        position: relative;
-        z-index: 2;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .chatbot-trigger .chatbot-trigger-icon svg {
-        width: 100%;
-        height: 100%;
-        fill: currentColor;
-      }
-      .chat-bubble {
-        display: flex;
-        align-items: center;     /* 세로 중앙 */
-        justify-content: center; /* 가로 중앙 */
-        text-align: center;
       }
       
+      .chatbot-trigger img {
+        width: 70px;
+        height: 70px;
+      }
       .chat-bubble p {
-        margin: 0;               /* 위아래 간격 제거 */
+        margin: 0;
         line-height: 1.35;
-      }
-      .chat-bubble.user {
-        margin-left: auto;
-        background: #e9e9e9;
-        color: #24232C;
-      }
-      
-      .chat-bubble.assistant {
-        margin-right: auto;
       }
       
       /* AI Agent Notification */
@@ -353,6 +362,9 @@
       
       /* Messages Container - appears after notification */
       .messages-container {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         opacity: 1;
         transform: translateY(0);
       }
@@ -383,12 +395,12 @@
       /* Typing indicator (bot is "thinking") */
       .typing-indicator {
         align-self: flex-start;
-        margin-right: auto;
         margin-bottom: 12px;
         width: fit-content;
+        max-width: 300px;
         flex-shrink: 0;
-        background: #e9e9e9;
-        border-radius: 18px;
+        background: #EFEFEF;
+        border-radius: 19px 19px 19px 4px;
         padding: 14px 20px;
         display: flex;
         align-items: center;
@@ -445,14 +457,9 @@
   shadow.appendChild(root);
 
 
-  // Message icon: speech bubble with lines (no external font – always renders)
-  const messageIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 11H6v-2h12v2zm0-3H6V8h12v2zm0-3H6V5h12v2z"/></svg>`;
-
   const trigger = document.createElement("button");
   trigger.className = "chatbot-trigger";
-  trigger.type = "button";
-  trigger.setAttribute("aria-label", "Open chat");
-  trigger.innerHTML = `<span class="chatbot-trigger-icon">${messageIconSvg}</span>`;
+  trigger.innerHTML = `<img src="${BASE}assets/public/chat-trigger.svg" alt="Chat" />`;
   trigger.onclick = () => {
     open = true;
 
@@ -511,12 +518,17 @@
     const lastIdx = messages.length - 1;
     return messages
       .map((m, i) => {
-        let cls = m.role === "user" ? "chat-bubble user" : "chat-bubble assistant";
-        if (m.role === "user" && i === lastIdx) cls += " user-slide-up";
-        if (m.role === "assistant" && i === lastIdx) cls += " assistant-slide-in";
+        const role = m.role === "user" ? "user" : "assistant";
+        let bubbleCls = m.role === "user" ? "chat-bubble user" : "chat-bubble assistant";
+        if (m.role === "user" && i === lastIdx) bubbleCls += " user-slide-up";
+        if (m.role === "assistant" && i === lastIdx) bubbleCls += " assistant-slide-in";
         const safe = escapeHtml(m.text).replaceAll("\n", "<br/>");
-        const time = m.time ? `<span class="chat-time">${m.time}</span>` : ""; // add time
-        return `<div class="${cls}"><p>${safe}</p>${time}</div>`;
+        const timeHtml = m.time ? `<span class="chat-time">${m.time}</span>` : "";
+        const bubble = `<div class="${bubbleCls}"><p>${safe}</p></div>`;
+        if (role === "assistant") {
+          return `<div class="msg-row assistant">${bubble}${timeHtml}</div>`;
+        }
+        return `<div class="msg-row user">${timeHtml}${bubble}</div>`;
       })
       .join("");
   }
@@ -555,7 +567,10 @@
       <div class="chat-widget">
         <div class="chat-header">
           <div class="chat-active">
-            <img class="chat-avatar" src="${BASE}assets/public/chatbot.png" alt="CMES" />
+            <div class="chat-avatar-wrap">
+              <img class="chat-avatar" src="${BASE}assets/public/chat-agent.svg" alt="CMES" />
+              <span class="chat-avatar-status" aria-hidden="true"></span>
+            </div>
             <div class="chat-title">
               <span class="chat-name">CMES Agent</span>
               <span class="chat-notify">Ready to help you!</span>
@@ -576,23 +591,20 @@
 
         <div class="chat-bottom">
           <div class="chat-input-wrapper">
-            <textarea
-              class="chat-input"
-              rows="1"
-              placeholder="What would you like to know?"
-            ></textarea>
-          </div>
-
-          <div class="chat-bottom-row">
-            <div class="chat-bottom-icon">
-              <button class="chat-image" type="button" aria-label="Upload image">
-                <img src="${BASE}assets/public/plus.svg" alt="" />
-              </button>
+            <div class="chat-input-row">
               <button class="chat-microphone" id="micBtn" type="button" aria-label="Record voice">
                 <img src="${BASE}assets/public/microphone.svg" alt="" />
               </button>
+              <textarea
+                class="chat-input"
+                rows="1"
+                placeholder="What would you like to know?"
+              ></textarea>
             </div>
+            <div class="chat-powered-by">POWERED BY OPENAI</div>
+          </div>
 
+          <div class="chat-bottom-row">
             <button class="chat-send" id="sendBtn" type="button" aria-label="Send">
               <img src="${BASE}assets/public/arrow1.svg" alt="" />
             </button>

@@ -1,0 +1,11 @@
+# Render.com blueprint: deploy RAG API as a Web Service
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: cmes-chatbot-rag
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python api.py
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # set in Render dashboard

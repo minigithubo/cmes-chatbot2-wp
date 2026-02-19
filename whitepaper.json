@@ -1,0 +1,89 @@
+{
+  "documents": [
+    {
+      "id": "wp_intro",
+      "text": "Introduction\nAutomation in the industrial workplace is evolving beyond simple productivity gains to become part of a larger trend toward sustainability and global supply chain reshaping. In particular, the combination of 3D Vision AI and robotics is gaining traction as a key technology that enables reliable automation beyond standardized tasks, even in complex and unpredictable environments, and aligns with ESG management and reshoring trends. In this white paper, we look at how CMES' 3D vision-based vertical solutions are contributing to industrial automation and the future direction of this technological transition.",
+      "meta": {"category": "Introduction", "topic": "Introduction"}
+    },
+    {
+      "id": "wp_key_technologies",
+      "text": "Key Technologies\n1. 3D recognition and pose estimation model: enables precise position/posture judgment based on 3D image data.\n2. Learning-based AI algorithms: Maintain high recognition accuracy in a variety of environments.\n3. Robot control integration: high-precision path planning with precise calibration and pose control.",
+      "meta": {"category": "Introduction", "topic": "Key Technologies"}
+    },
+    {
+      "id": "wp_vertical_electronics",
+      "text": "Targeted Vertical Markets: Electronics\nApplication: High-precision bonding and assembly of flexible components.\nEffect: Reduce scrap, reduce labor costs, and speed up production.",
+      "meta": {"category": "Introduction", "topic": "Vertical Markets", "industry": "Electronics"}
+    },
+    {
+      "id": "wp_vertical_logistics",
+      "text": "Targeted Vertical Markets: Logistics\nApplication: Picking, sorting, and transferring goods.\nEffect: Reduce musculoskeletal disorders, streamline labor operations, and enable unattended operations at night.",
+      "meta": {"category": "Introduction", "topic": "Vertical Markets", "industry": "Logistics"}
+    },
+    {
+      "id": "wp_vertical_automotive",
+      "text": "Targeted Vertical Markets: Automotive\nApplication: Plug/sticker attachment, sintering/intermediate welding, deburring.\nEffect: Ensure worker safety, reduce musculoskeletal disorders, and uniform process quality.",
+      "meta": {"category": "Introduction", "topic": "Vertical Markets", "industry": "Automotive"}
+    },
+    {
+      "id": "wp_vertical_food_pharma",
+      "text": "Targeted Vertical Markets: Food/Pharmaceutical\nApplication: Box unpacking, specimen handling.\nEffect: Replacement of low-value-added repetitive tasks.",
+      "meta": {"category": "Introduction", "topic": "Vertical Markets", "industry": "Food/Pharmaceutical"}
+    },
+    {
+      "id": "wp_differentiators",
+      "text": "Differentiators\nFlexibility: Maintain the high success rate and precision of structured automation in multi-variety and unstructured environments.\nHigh volume: High work rates, integration between processes, and a wide range of edge case handling capabilities.\nReliability: Error-free and stable behavior, easy and fast restart, continuous AI performance improvement based on MLOps (Machine Learning Operations).",
+      "meta": {"category": "Introduction", "topic": "Differentiators"}
+    },
+    {
+      "id": "wp_challenge_diversity",
+      "text": "Key Challenges: Diversity of Objects to Be Handled\nThe items handled in a warehouse vary widely in size, shape, weight, and more. Since robotic systems are often optimized for specific types of items, handling a wide variety of objects efficiently becomes a major challenge. For example, robotics technology and systems must be customized for each item, from small parts to large appliances. Advanced technologies such as 3D Vision AI can improve object recognition, but there are still technical limitations to achieving universality.",
+      "meta": {"category": "Logistics Automation", "topic": "Key Challenges", "challenge": "Object Diversity"}
+    },
+    {
+      "id": "wp_challenge_speed",
+      "text": "Key Challenges: Fast Processing Speed\nModern logistics demands speed and real-time responsiveness. With increasing pressure to reduce order fulfillment and delivery times, traditional automation systems must provide high throughput and high speed. However, increasing the speed of logistics systems while maintaining accuracy is a major challenge. Especially in congested logistics networks, there is also the potential for errors due to ultra-fast processing, and system optimization is essential to overcome this.",
+      "meta": {"category": "Logistics Automation", "topic": "Key Challenges", "challenge": "Processing Speed"}
+    },
+    {
+      "id": "wp_challenge_low_wages",
+      "text": "Key Challenges: Low Wages\nOne of the main reasons automation is adopted is to reduce labor costs. Nevertheless, logistics automation systems come with high initial investment costs, and there are also ongoing maintenance and upgrade costs. Therefore, it is crucial to develop technologies that ensure cost-effectiveness in replacing low-wage labor. Companies are challenged to provide sustainable automation solutions at a low cost.",
+      "meta": {"category": "Logistics Automation", "topic": "Key Challenges", "challenge": "Cost"}
+    },
+    {
+      "id": "wp_challenge_damage_misdelivery",
+      "text": "Key Challenges: Damage and Misdelivery Prevention\nIn logistics systems, damage and misdelivery are issues that can have a serious impact on brand credibility. Preventing damage and ensuring accurate delivery of goods is one of the critical roles of automated systems. Robotic technology can help you handle items safely and quickly, but it requires accurate object recognition, gentle handling, and durable systems. In addition, real-time tracking systems and AI-powered error detection are essential to prevent misdeliveries.",
+      "meta": {"category": "Logistics Automation", "topic": "Key Challenges", "challenge": "Damage and Misdelivery"}
+    },
+    {
+      "id": "wp_challenge_integration",
+      "text": "Key Challenges: Integration With Other Automation Systems\nIn most warehouses today, various automation systems operate independently. Problems with interworking between different systems can significantly reduce the efficiency of automation. In order to seamlessly integrate new systems with the existing logistics infrastructure, it is necessary to develop technologies that take standardized protocols and compatibility into account. It is also important to establish a central management platform for AI, robotics, and IoT systems to interact within the warehouse.",
+      "meta": {"category": "Logistics Automation", "topic": "Key Challenges", "challenge": "Integration"}
+    },
+    {
+      "id": "wp_solution_depalletizing",
+      "text": "Optimal Solutions: Depalletizing\nCMES' Depalletizing solution leverages proven vision AI technology to accurately recognize various shapes of boxes, bags, and packs randomly placed on a pallet and quickly and efficiently move them to a designated location. The solution scans incoming pallets to acquire 2D and 3D images and uses AI-based recognition technology to identify boxes and bags. It then analyzes the size, positioning, and collision risk of the identified items to prioritize tasks and create optimal robot paths. Boxes and bags are accurately captured using suction technology and transferred to a conveyor belt or designated location, and empty pallets are automatically recognized and ejected when the task is complete.",
+      "meta": {"category": "Logistics Automation", "topic": "Optimal Solutions", "solution": "Depalletizing"}
+    },
+    {
+      "id": "wp_solution_palletizing",
+      "text": "Optimal Solutions: Palletizing\nCMES' palletizing solution is a robotic automation system that loads random or large batches of boxes onto pallets in the optimal shape, based on a buffer system optimized for the site environment and palletizing AI. The solution identifies incoming boxes by matching their barcode information, and determines their volume and location in real time through a 3D camera. For registered boxes, it automatically matches previously stored stacking patterns to generate a work plan, while unregistered boxes are automatically registered through vision measurement data that automatically generates the optimal stacking pattern for the box size. The vision-based precision technology also enables reliable palletizing of heavy or fragile objects, and up to three pallets can be loaded simultaneously. Randomly sized boxes that are received in large quantities are also optimally discharged onto pallets, with the order of discharge determined by the automatic palletizing pattern generation AI.",
+      "meta": {"category": "Logistics Automation", "topic": "Optimal Solutions", "solution": "Palletizing"}
+    },
+    {
+      "id": "wp_solution_piece_picking",
+      "text": "Optimal Solutions: Piece-Picking/Bin-Picking\nCMES' picking automation solution is a sophisticated automation system that utilizes artificial intelligence (AI) and 3D vision technology to precisely recognize the type, location, and picking points of various products randomly stacked on pallets or containers, and automatically selects, sorts, and transfers products and quantities that meet order conditions. The solution maintains high accuracy and productivity even in environments with irregularly stacked products or a wide variety of items, and provides efficient and reliable picking operations through AI-powered judgment and automated feedback loops. The system receives the necessary information (product type, location, quantity information, etc.) according to the customer's picking method, and then performs 3D vision-based measurement and recognition of the incoming goods. The robot then performs picking operations according to the optimal picking target and picking point determined by the AI, and the success or failure of the operation is monitored in real time through AI. In the event of a picking failure, the robot automatically performs a rework according to a preset recovery plan (recovery scenario), and the successfully picked product is moved to the BCR (Barcode Reader) station for barcode recognition. If the barcode recognition fails, the product is reprocessed according to the same recovery plan.",
+      "meta": {"category": "Logistics Automation", "topic": "Optimal Solutions", "solution": "Piece-Picking/Bin-Picking"}
+    },
+    {
+      "id": "wp_solution_void_fill",
+      "text": "Optimal Solutions: Void Fill\nCMES' void fill solution is a packaging automation solution that utilizes three-dimensional vision technology to precisely measure the volume and free space inside a carton with a mix of items and quantities, and then automatically adds the required amount of cushioning material. The solution addresses the growing needs of the logistics and distribution industry for low-volume, multi-variety shipments, flexible packaging, and damage prevention during shipping, while optimizing the use of cushioning materials, ensuring consistency in packaging quality, and maximizing work efficiency. The system uses 3D cameras to recognize the external dimensions, internal volume, and free space of each box in real time, and precisely calculates the amount of empty space depending on the quantity and shape of the goods inside the box. Based on this, the system automatically calculates the amount of cushioning material required, and fills the box with the calculated amount of cushioning material using dedicated equipment or a robotic arm. Once the cushioning material has been inserted, the box is automatically transferred to the taping and invoicing process, which is fully automated until the final packaging finish.",
+      "meta": {"category": "Logistics Automation", "topic": "Optimal Solutions", "solution": "Void Fill"}
+    },
+    {
+      "id": "wp_solution_inspection",
+      "text": "Optimal Solutions: Inspection\nIn traditional logistics operations, products are inspected by scanning their barcodes one by one. CMES has switched to AI-based vision camera matching, which dramatically improves the product verification process in the shipping process. The solution improves overall work efficiency by reducing the process time by about 20 seconds compared to the previous one, and by using an object detection AI model and a classification AI model together, it can quickly recognize any object and accurately classify it by comparing it with images registered in the DB. In addition, up to 10 vision cameras can be operated simultaneously with a single PC, maximizing monitoring efficiency.",
+      "meta": {"category": "Logistics Automation", "topic": "Optimal Solutions", "solution": "Inspection"}
+    }
+  ]
+}

@@ -63,7 +63,8 @@ $CMES_FAQ_DATA = [
 
     $api = $dir . 'assets/apiservice.js';
     $ui  = $dir . 'assets/chatbot.js';
-  
+    $css = $dir . 'assets/chatbot.css';
+
     wp_enqueue_style(
     'cmes-chatbot-style',
     $base . 'assets/chatbot.css',
@@ -189,10 +190,20 @@ function cmes_should_show_quote_cta($category, $text) {
   return false;
 }
 
+/**
+ * RAG endpoint URL — must be the semantic-search backend (api.py in this repo).
+ * That backend uses Chroma + SentenceTransformer embeddings for vector/semantic search,
+ * then passes retrieved chunks to the LLM. To use a remote URL (e.g. ngrok), define
+ * CMES_RAG_API_URL in wp-config.php before this plugin loads, e.g.:
+ *   define( 'CMES_RAG_API_URL', 'https://your-ngrok.ngrok-free.dev/chat' );
+ */
+if ( ! defined( 'CMES_RAG_API_URL' ) ) {
+  define( 'CMES_RAG_API_URL', 'https://cyano-jene-partis.ngrok-free.dev/chat' );
+}
+
 function cmes_call_rag_module($payload) {
-  // FastAPI RAG endpoint
-  $rag_api_url = 'http://127.0.0.1:8000/chat';
-  
+  $rag_api_url = defined( 'CMES_RAG_API_URL' ) ? CMES_RAG_API_URL : 'https://cyano-jene-partis.ngrok-free.dev/chat';
+
   $response = wp_remote_post($rag_api_url, [
     'method'      => 'POST',
     'timeout'     => 15,
@@ -205,7 +216,7 @@ function cmes_call_rag_module($payload) {
 
   if (is_wp_error($response)) {
     return [
-      'answer' => 'Unable to reach the RAG service. Ensure the API is running on port 8000.',
+      'answer' => 'Server offline. Contact Seungji for help.',
       'sources' => [],
     ];
   }
