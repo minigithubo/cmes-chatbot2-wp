@@ -1,2 +1,6 @@
 .env
 .venv
+ARCHIVE/
+company_info.py
+logistics.py
+ingest_all.py
