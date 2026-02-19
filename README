@@ -1,16 +1,1 @@
-http://127.0.0.1:8000/docs
 
-Example:
-
-{
-  "question": "What types of grippers are available?"
-}
-
----
-
-Scraper (efficient site → docs.json)
-
-  pip install -r requirements-scrape.txt
-  # Edit scrape_config.json: set base_url and urls to your site.
-  python scrape_docs.py                    # writes scraped_docs.json
-  python scrape_docs.py --merge docs.json   # merge scraped docs into docs.json
